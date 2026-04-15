@@ -11,7 +11,7 @@ load_dotenv()
 
 MONGO_URI: str = os.getenv(
     "MONGO_URI",
-    "mongodb+srv://pranavdawange03_db_user:PooRvWWkyCMUZv6c@cluster0.04asfc5.mongodb.net/clinderma?retryWrites=true&w=majority&appName=Cluster0",
+    "mongodb://localhost:27017/clinderma",
 )
 MONGO_DB_NAME: str = os.getenv("MONGO_DB_NAME", "clinderma")
 

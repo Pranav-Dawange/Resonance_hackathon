@@ -414,6 +414,11 @@ resonance/
 
 ## 👥 Team
 
+- Pranav Dawange
+- Sumit Gavali
+- Rushikesh Ambhore
+- Atharva Agey
+
 Built for **RESONANCE 2K26** — VIT Pune — Clinderma AI/ML Healthcare Track
 
 ---

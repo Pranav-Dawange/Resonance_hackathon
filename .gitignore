@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model weights
+*.pt
+*.onnx
+*.tflite
+yolo_weights/
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Logs
+*.log
+npm-debug.log*

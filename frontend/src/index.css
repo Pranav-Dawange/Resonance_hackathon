@@ -1,0 +1,217 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   DERMAAI SKINVISION — Clinical Design System
+   ============================================ */
+
+@layer base {
+  :root {
+    --color-medical-blue: #2563EB;
+    --color-medical-blue-glow: rgba(37, 99, 235, 0.4);
+    --color-surface: #1E293B;
+    --color-base: #0F172A;
+    --color-elevated: #334155;
+    --color-border: rgba(71, 85, 105, 0.5);
+    --color-comedonal: #22C55E;
+    --color-inflammatory: #EF4444;
+    --color-other: #3B82F6;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-base);
+    color: #E2E8F0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-base);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-elevated);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}
+
+@layer components {
+  /* Glass Card */
+  .glass-card {
+    @apply bg-clinical-surface/60 backdrop-blur-xl border border-white/[0.06] rounded-2xl;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 4px 24px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+  .glass-card-hover:hover {
+    @apply border-medical-blue-500/30;
+    box-shadow:
+      0 0 0 1px rgba(37, 99, 235, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 0 24px rgba(37, 99, 235, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Clinical Button — Primary */
+  .btn-primary {
+    @apply relative overflow-hidden px-6 py-3 rounded-xl font-semibold text-white text-sm
+           bg-gradient-to-r from-medical-blue-500 to-medical-blue-600
+           hover:from-medical-blue-400 hover:to-medical-blue-500
+           transition-all duration-300 ease-out
+           shadow-lg shadow-medical-blue-500/25
+           hover:shadow-xl hover:shadow-medical-blue-500/40
+           active:scale-[0.98];
+  }
+  .btn-primary::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+  .btn-primary:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Clinical Button — Ghost */
+  .btn-ghost {
+    @apply px-6 py-3 rounded-xl font-medium text-sm text-slate-300
+           border border-white/10 hover:border-medical-blue-500/40
+           hover:bg-medical-blue-500/10 hover:text-white
+           transition-all duration-300 active:scale-[0.98];
+  }
+
+  /* Scan Laser Line */
+  .scan-laser {
+    @apply absolute left-0 right-0 h-[2px] pointer-events-none z-30;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(37, 99, 235, 0.3) 15%,
+      rgba(37, 99, 235, 0.9) 50%,
+      rgba(37, 99, 235, 0.3) 85%,
+      transparent 100%
+    );
+    box-shadow:
+      0 0 8px rgba(37, 99, 235, 0.6),
+      0 0 24px rgba(37, 99, 235, 0.3),
+      0 0 48px rgba(37, 99, 235, 0.15);
+    animation: scanLine 2.5s ease-in-out infinite;
+  }
+  .scan-laser::after {
+    content: '';
+    @apply absolute -top-8 left-0 right-0 h-16;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(37, 99, 235, 0.06) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Luminance Meter */
+  .luminance-meter {
+    @apply relative h-2 rounded-full overflow-hidden;
+    background: linear-gradient(90deg,
+      #EF4444 0%,
+      #F59E0B 30%,
+      #22C55E 60%,
+      #22C55E 100%
+    );
+  }
+  .luminance-meter-fill {
+    @apply absolute top-0 right-0 h-full bg-slate-900/80 rounded-r-full;
+    transition: width 0.3s ease-out;
+  }
+
+  /* Status indicators */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  .status-dot-active {
+    @apply status-dot bg-emerald-400;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+  }
+  .status-dot-warning {
+    @apply status-dot bg-amber-400;
+    box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+  }
+  .status-dot-danger {
+    @apply status-dot bg-red-400;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+  }
+
+  /* Section heading */
+  .section-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500;
+  }
+
+  /* IGA Score gradient ring */
+  .iga-ring {
+    @apply relative;
+  }
+  .iga-ring svg circle {
+    transition: stroke-dashoffset 1.5s ease-out;
+  }
+
+  /* Toast notification */
+  .toast {
+    @apply fixed top-6 right-6 z-50 max-w-sm glass-card p-4 rounded-xl
+           border-l-4 animate-slide-in-right;
+  }
+  .toast-warning {
+    @apply toast border-l-amber-400;
+  }
+  .toast-danger {
+    @apply toast border-l-red-400;
+  }
+  .toast-success {
+    @apply toast border-l-emerald-400;
+  }
+}
+
+@layer utilities {
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-medical-blue-400 to-medical-blue-300;
+  }
+
+  .text-gradient-hero {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-medical-blue-200 to-medical-blue-400;
+  }
+
+  .border-glow-blue {
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3), 0 0 16px rgba(37, 99, 235, 0.15);
+  }
+
+  .grid-clinical {
+    background-image:
+      linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Architecture Flowchart</title>
+    <!-- Load Mermaid from a CDN -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background-color: #f9f9f9;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Clinderma SkinVision Architecture</h1>
+    <p class="instruction">Hover over or screenshot this diagram to paste into your presentation.</p>
+    
+    <pre class="mermaid">
+    graph TD
+        %% Styling configurations
+        classDef edgeLayer fill:#e0f7fa,stroke:#006064,stroke-width:2px;
+        classDef cloudLayer fill:#fce4ec,stroke:#880e4f,stroke-width:2px;
+        classDef output fill:#f1f8e9,stroke:#33691e,stroke-width:2px;
+        classDef fail fill:#ffebee,stroke:#b71c1c,stroke-width:2px;
+        classDef database fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+        %% Client/Edge Layer
+        subgraph Edge["Client Side (Edge Layer - 0 Latency)"]
+            Cam["📷 Camera Input"]
+            Mesh["MediaPipe Face Mesh<br/>(468 3D Landmarks)"]
+            Gate{"Quality Gate<br/>ITU-R BT.709 Luminance<br/>+ Laplacian σ² Blur"}
+            Fail["✗ FAIL<br/>Red Warning Overlay"]
+            Pass["✓ PASS<br/>Frame Capture (Base64 JPEG)"]
+            
+            Cam --> Mesh
+            Mesh --> Gate
+            Gate --"Poor Quality"--> Fail
+            Gate --"Good Quality"--> Pass
+        end
+
+        %% Cloud/FastAPI Layer
+        subgraph Cloud["Cloud Layer (FastAPI Diagnostic Engine)"]
+            API["FastAPI Server"]
+            YOLO["YOLOv11 Lesion Detector<br/>(BBoxes + Confidence)"]
+            LAB["CIE L*a*b* Analyzer<br/>(K-Means k=3, ΔL* Coverage)"]
+            IGA["IGA Calculator<br/>log₂(1 + I×2.5 + ... )"]
+            Heat["Gaussian Heatmap<br/>(JET Colormap)"]
+            SkinBase["Skincare Engine<br/>(11-Ingredient Knowledge Base)"]
+
+            Pass --> API
+            API --> YOLO
+            API --> LAB
+            API --> IGA
+            API --> Heat
+            API --> SkinBase
+        end
+
+        %% Database & Frontend Outputs
+        subgraph DB["Storage & Display (Temporal Feature Ledger)"]
+            Fire["Firebase Firestore"]
+            Hist["History Dashboard<br/>(Progress Chart)"]
+            Slide["Comparison Slider<br/>(Before/After BBox Re-render)"]
+            
+            YOLO --> Fire
+            LAB --> Fire
+            IGA --> Fire
+            SkinBase --> Fire
+            
+            Fire --> Hist
+            Fire --> Slide
+        end
+
+        %% Apply CSS Classes
+        class Edge,Cam,Mesh,Gate,Pass edgeLayer;
+        class Fail fail;
+        class Cloud,API,YOLO,LAB,IGA,Heat,SkinBase cloudLayer;
+        class DB,Fire,Hist,Slide database;
+        class Hist,Slide output;
+    </pre>
+</div>
+
+</body>
+</html>
